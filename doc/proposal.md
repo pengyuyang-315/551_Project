@@ -1,4 +1,4 @@
-# 🌍Proposal for The Project: Illuminating the Nexus of Poverty and Child Malnutrition 
+# 🌍Proposal for The Project: Visualizing the Nexus of Poverty and Child Malnutrition 
 
 
 ## Motivation and Purpose
@@ -9,7 +9,7 @@ As students deeply invested in understanding and tackling global social issues, 
 ### 🎯Target Audience:
 Our envisioned audience comprises a diverse array of stakeholders, ranging from policymakers and researchers to grassroots organizations and concerned citizens. By developing a data visualization dashboard, we aim to create a powerful tool that resonates with anyone committed to addressing the root causes of poverty and improving child well-being.
 
-### 🌍Problem Statement:
+### 🍎Problem Statement:
 Child malnutrition stands as a stark manifestation of systemic poverty, perpetuating a vicious cycle of deprivation and vulnerability. Despite decades of concerted efforts, millions of children worldwide continue to suffer from malnutrition, facing lifelong consequences that ripple through generations. Traditional approaches to poverty alleviation often fall short of addressing the multifaceted nature of this challenge, necessitating a paradigm shift towards more holistic, data-driven solutions.
 
 ### 🚀Purpose of Dashboard:
