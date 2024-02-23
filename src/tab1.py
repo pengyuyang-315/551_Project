@@ -7,15 +7,33 @@ import altair as alt
 import numpy as np
 import sys
 import os
+from datetime import datetime
+
+# set root path as default
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Assuming your data file is located in the same directory as this script
+# read data from country-wise-average.csv
 df_avg = pd.read_csv("data/country-wise-average.csv")
+# country names from df_avg
 columns_1 = df_avg.drop("Country", axis=1).columns
+
 
 df_total = pd.read_excel("data/mul_sum.xlsx",sheet_name="Stunting Proportion (Model)")
 countryNames = df_total["Country and areas"].unique().tolist()[:202]
 columns_2 = ['Stunting','Overweight']
+
+#indicators explanation 
+growth_indicators_dict = {
+    "Income Classification": "The income classification of a country typically refers to the categorization of countries based on their gross national income (GNI) per capita. Common classifications include low-income, middle-income, and high-income countries, as defined by organizations like the World Bank.",
+    "Severe Wasting": "Percentage of children aged 0–59 months who are below minus three standard deviations from median weight-for-height of the WHO Child Growth Standards.",
+    "Wasting": "Moderate and severe: Percentage of children aged 0–59 months who are below minus two standard deviations from median weight-for-height of the WHO Child Growth Standards.",
+    "Overweight": "Moderate and severe: Percentage of children aged 0-59 months who are above two standard deviations from median weight-for-height of the WHO Child Growth Standards.",
+    "Stunting": "Moderate and severe: Percentage of children aged 0–59 months who are below minus two standard deviations from median height-for-age of the WHO Child Growth Standards.",
+    "Underweight": "Moderate and severe: Percentage of children aged 0–59 months who are below minus two standard deviations from median weight-for-age of the World Health Organization (WHO) Child Growth Standards.",
+    "U5 Population ('000s)": "Population of children under the age of 5, measured in thousands (000s)."
+}
+
+#create earth plot
 def create_world_map(column_name):
     
     fig = go.Figure()
@@ -42,64 +60,101 @@ def create_world_map(column_name):
 
     return fig
 
+#main structre layout for tab1
 def create_layout(app):
     
     layout = html.Div([
+
+        html.H2("Malnutrition Data Visualization", style={'margin-top': '20px', 'margin-left': '20px'}),
+
+        # display earth plot
         html.Label([
-            dcc.Dropdown(
-                id='column-dropdown',
-                options=[{'label': i, 'value': i} for i in columns_1],
-                value='Overweight'  # Set 'Overweight' as the default option
-            ),
-            dcc.Graph(id='world-map'),
+            # get indicator selected
+            html.Label([
+                dcc.Dropdown(
+                    id='column-dropdown',
+                    options=[{'label': i, 'value': i} for i in columns_1],
+                    value='Overweight',  # Set 'Overweight' as the default option
+                    placeholder="Select indicator",
+                    style={'width':'50%'}
+                ),
+            ]),
+            html.Div([
+                html.H5("Indicator explanation:", style={'margin-bottom': '5px'}),
+                html.Div(id='indicator_explain', style={'font-size': 'small', 'width': '50%'}),
+            ], style={'margin-bottom': '20px'}),  # Add margin between the H5 and the Div
+   
+            dcc.Graph(id='world-map',
+                    style={'width': '100%', 'height': '480px'}),
         ]),
         
+        # display two other plots for specific country
         html.Div([
+
+            #death number bar plot
             html.Div([
                 html.Iframe(
                     id='death_number',
                     style={'width': '100%', 'height': '400px'} 
                 )
-            ], style={'width': '43%', 'display': 'inline-block','float':'left'}),
+            ], style={'width': '43%','height':'400px', 'display': 'inline-block','float':'left'}),
 
+            #indicator compare for more than 1 countries
             html.Div([
                 html.Iframe(
                     id='Compare',
-                    style={'width': '70%', 'height': '400px', 'float': 'left'}
+                    style={'width': '70%', 'height': '400px', 'float': 'right'}
                 ),
                 html.Div([
+                    html.H4("Choose the countries and indicator"),
+                    
+                    html.Div(style={'margin-top': '20px'}),
                     dcc.Dropdown(
                         id='country-dropdown',
                         options=[{'label': country, 'value': country} for country in countryNames],
-                        value=["China"],
+                        value=["China","Benin"],
                         multi=True,
                         placeholder="Search and select countries...",
                     ),
+                    html.Div(style={'margin-top': '20px'}),
+
                     dcc.RadioItems(
                         id='estimate-radio',
                         options=[{'label': i, 'value': i} for i in columns_2],
-                        value='Overweight',  # Set 'Overweight' as the default option
-                         # Add some top margin for separation
+                        inline =True,
+                        value='Overweight', 
                     )
-                ], style={'width': '20%', 'float': 'right'})
-            ], style={'width': '55%', 'height':'380px','display': 'inline-block','float':'right'}),
-        ]),
+                ], style={'width': '28%', 'float': 'left'})
+            ], style={'width': '55%', 'height':'400px','display': 'inline-block','float':'right'}),
+        ],style ={'height':'420px'}),
         
+
+        html.Div([
+            html.Div([
+                f" Copyright © {datetime.now().year}. Created by ",
+                html.A("Yuyang Peng", href="https://github.com/pengyuyang-315/551_Project", target='_blank')
+            ], style={'font-size': '9pt'})
+        ], style={'width': '100%',})
         
     ])
 
+    # earth plot for different indicators 
     @app.callback(
-        Output('world-map', 'figure'),
-        [Input('column-dropdown', 'value')]
-    )
+    [Output('world-map', 'figure'),
+     Output('indicator_explain', 'children')],
+    [Input('column-dropdown', 'value')]
+    )      
     def update_world_map(column_name):
         print("column_name")
         if column_name is None:  # If no option is chosen, default to 'Overweight'
             column_name = 'Overweight'
-        return create_world_map(column_name)
+        explain = growth_indicators_dict[column_name]
+
+        # also return indicator explantion
+        return create_world_map(column_name),explain
     
 
-
+    # display one indicator different countries
     @app.callback(
         Output('Compare', 'srcDoc'),
         [Input('country-dropdown', 'value'),
@@ -132,13 +187,21 @@ def create_layout(app):
         df_tol['Point Estimate'] = pd.to_numeric(df_tol['Point Estimate'], errors='coerce')
         df_tol['Lower Uncertainty Bound'] = pd.to_numeric(df_tol['Lower Uncertainty Bound'], errors='coerce')
         df_tol['Upper Uncertainty Bound'] = pd.to_numeric(df_tol['Upper Uncertainty Bound'], errors='coerce')
+        df_tol['Point Estimate']/=100
+        df_tol['Upper Uncertainty Bound'] /= 100
+        df_tol['Lower Uncertainty Bound'] /= 100
+        countries_string = ', '.join(countries)
 
+        # Construct the title
+        title = f"{indicator} Model Estimates in {countries_string}"
         area = alt.Chart(df_tol).mark_area(opacity=0.5).encode(
             x=alt.X('Year', title='Year'),
-            y=alt.Y('Upper Uncertainty Bound', title='Proportion'),
+            y=alt.Y('Upper Uncertainty Bound', title='Proportion',axis=alt.Axis(format='%')),
             y2='Lower Uncertainty Bound',
             color='Country',
-            tooltip=['Year', 'Country', 'Point Estimate','Upper Uncertainty Bound','Lower Uncertainty Bound']
+            tooltip=['Year', 'Country', alt.Tooltip('Point Estimate', format='.2%'),alt.Tooltip('Upper Uncertainty Bound', format='.2%'), alt.Tooltip('Lower Uncertainty Bound', format='.2%')]
+        ).properties(
+            title =title
         )
 
         charts = area+alt.Chart(df_tol).mark_line().encode(
@@ -209,12 +272,32 @@ def create_layout(app):
         sum = pd.concat([df0,df1,df2,df3,df4])
         sum['Year']=pd.to_datetime(sum['Year'], format='%Y') 
         sum_2000_2021 = sum.query("Year > 1999 and Year <2022")
-        chart = alt.Chart(sum_2000_2021).mark_bar().encode(
-            alt.X("Year"),
+        title = 'Death Number By Age in ' + country + ' from 2000 to 2021'
+        subtitle = 'Source from the UN Inter-agency Group for Child Mortality Estimation: www.childmortality.org'
+        chart = alt.Chart(sum_2000_2021,
+            title=alt.TitleParams(
+            text = title,
+            subtitle = subtitle,
+            anchor='start',
+            subtitleFontSize=10)
+            ).mark_bar().encode(
+            alt.X("Year",  
+                scale=alt.Scale(domain=['2000', '2021'])
+                ),
             alt.Y("Death Number"),
-            color="Range",
-            tooltip=["Year","Death Number","Range"]
+            color=alt.Color("Range", 
+                    title="Age Range",
+                    sort=["Infant", "Under 5", "5-9", "10-14", "16-19"]
+                    ),
+            tooltip=[
+            alt.Tooltip("Year", title="Survey Year"),  # Custom tooltip for Year
+            alt.Tooltip("Death Number", title="Death Number"),  # Custom tooltip for Death Number
+            alt.Tooltip("Range", title="Age Range")  # Custom tooltip for Range
+    ]
         )  
-        return chart.to_html()
+        
+        chart_html = chart.to_html()
+
+        return chart_html
     return layout
 

@@ -7,6 +7,7 @@ from datetime import datetime
 import flask
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src import tab2, tab1, tab0
 
@@ -32,16 +33,12 @@ app.layout = html.Div([
         html.Div(id='tabs-content', children=tab1.create_layout(app)),
         html.Hr(),
     ], style={'position': 'relative', 'min-height': '100vh'}),
-    html.Div([
-        html.Div([
-            f"Copyright © {datetime.now().year}. Created by ",
-            html.A("Yuyang Peng", href="https://github.com/pengyuyang-315/551_Project", target='_blank')
-        ], style={'font-size': '9pt', 'position': 'absolute', 'bottom': '-400px', 'left': '50%', 'transform': 'translateX(-50%)'})
-    ])
+    
 ])
 
-@app.callback(Output('tabs-content', 'children'),
-              [Input('tabs', 'value')])
+@app.callback(
+        Output('tabs-content', 'children'),
+        [Input('tabs', 'value')])
 def render_content(tab):
     if tab == 'tab-0':
         print("Rendering tab 0 content...")
