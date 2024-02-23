@@ -21,7 +21,7 @@ print("Current working directory set to:", os.getcwd())
 
 app.layout = html.Div([
     html.Div([
-        html.Img(src='assets/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
+        # html.Img(src='/assets/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
         dcc.Tabs(id='tabs', value='tab-1', children=[
             dcc.Tab(label='Overview', value='tab-0'),
             dcc.Tab(label='Malnutrition', value='tab-1'),
