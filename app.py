@@ -8,6 +8,7 @@ from datetime import datetime
 from src import tab2, tab1, tab0
 
 app = dash.Dash(__name__)
+server = app.server
 app.title = "Malnutrition and poverty cross the globe"
 print("Current working directory set to:", os.getcwd())
 
@@ -42,6 +43,8 @@ def render_content(tab):
     elif tab == 'tab-2':
         print("Rendering tab 2 content...")
         return tab2.create_layout()
+    
+
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8065,dev_tools_hot_reload=True)
