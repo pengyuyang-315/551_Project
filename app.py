@@ -6,9 +6,14 @@ import dash_core_components as dcc
 import dash_html_components as html
 from datetime import datetime
 from src import tab2, tab1, tab0
+import flask
 
 app = dash.Dash(__name__)
 server = app.server
+@server.route('/favicon.ico')
+def favicon():
+    return flask.send_from_directory(os.path.join(server.root_path, 'static'), 'favicon.ico')
+
 app.title = "Malnutrition and poverty cross the globe"
 print("Current working directory set to:", os.getcwd())
 
