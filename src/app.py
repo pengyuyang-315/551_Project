@@ -1,12 +1,14 @@
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
-import os
 import dash_core_components as dcc
 import dash_html_components as html
 from datetime import datetime
-from src import tab2, tab1, tab0
 import flask
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src import tab2, tab1, tab0
 
 app = dash.Dash(__name__)
 server = app.server
@@ -21,7 +23,7 @@ print("Current working directory set to:", os.getcwd())
 
 app.layout = html.Div([
     html.Div([
-        # html.Img(src='/assets/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
+        # html.Img(src='src/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
         dcc.Tabs(id='tabs', value='tab-1', children=[
             dcc.Tab(label='Overview', value='tab-0'),
             dcc.Tab(label='Malnutrition', value='tab-1'),

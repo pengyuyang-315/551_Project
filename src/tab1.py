@@ -5,6 +5,9 @@ import plotly.graph_objects as go
 import pandas as pd
 import altair as alt
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Assuming your data file is located in the same directory as this script
 df_avg = pd.read_csv("data/country-wise-average.csv")
