@@ -11,6 +11,8 @@ import flask
 app = dash.Dash(__name__)
 server = app.server
 @server.route('/favicon.ico')
+
+
 def favicon():
     return flask.send_from_directory(os.path.join(server.root_path, 'static'), 'favicon.ico')
 
@@ -49,7 +51,7 @@ def render_content(tab):
         print("Rendering tab 2 content...")
         return tab2.create_layout()
     
-
+server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
