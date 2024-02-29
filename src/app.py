@@ -24,31 +24,22 @@ print("Current working directory set to:", os.getcwd())
 
 app.layout = html.Div([
     html.Div([
-        # html.Img(src='src/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
-        dcc.Tabs(id='tabs', value='tab-1', children=[
-            dcc.Tab(label='Overview', value='tab-0'),
-            dcc.Tab(label='Malnutrition', value='tab-1'),
-            dcc.Tab(label='Poverty', value='tab-2'),
-        ]),
-        html.Div(id='tabs-content', children=tab1.create_layout(app)),
+        # html.Img(src='../assets/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
+        dcc.Tabs(
+            id='tabs',
+            value='tab1',  # Set the default tab ID here
+            children=[
+                dcc.Tab(label='Overview', value='tab0', children=tab0.create_layout(app)),
+                dcc.Tab(label='Malnutrition', value='tab1', children=tab1.create_layout(app)),
+                dcc.Tab(label='Poverty', value='tab2', children=tab2.create_layout(app)),
+            ]
+        ),
         html.Hr(),
     ], style={'position': 'relative', 'min-height': '100vh'}),
     
 ])
 
-@app.callback(
-        Output('tabs-content', 'children'),
-        [Input('tabs', 'value')])
-def render_content(tab):
-    if tab == 'tab-0':
-        print("Rendering tab 0 content...")
-        return tab0.create_layout()
-    elif tab == 'tab-1':
-        print("Rendering tab 1 content...")
-        return tab1.create_layout(app)
-    elif tab == 'tab-2':
-        print("Rendering tab 2 content...")
-        return tab2.create_layout()
+
     
 server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 
