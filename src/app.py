@@ -34,6 +34,7 @@ app.layout = html.Div([
                 dcc.Tab(label='Poverty', value='tab2', children=tab2.create_layout(app)),
             ]
         ),
+
         html.Hr(),
     ], style={'position': 'relative', 'min-height': '100vh'}),
     
@@ -44,4 +45,4 @@ app.layout = html.Div([
 server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', debug=True, port=8964)
