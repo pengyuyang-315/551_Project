@@ -5,6 +5,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from datetime import datetime
 import flask
+import altair as alt
 import sys
 import os
 
@@ -25,30 +26,15 @@ print("Current working directory set to:", os.getcwd())
 app.layout = html.Div([
     html.Div([
         # html.Img(src='src/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
-        dcc.Tabs(id='tabs', value='tab-1', children=[
-            dcc.Tab(label='Overview', value='tab-0'),
-            dcc.Tab(label='Malnutrition', value='tab-1'),
-            dcc.Tab(label='Poverty', value='tab-2'),
+        dcc.Tabs(id='tabs', value='tab-2', children=[
+            tab1.create_layout(app),
+            tab2.create_layout(app)
         ]),
-        html.Div(id='tabs-content', children=tab1.create_layout(app)),
         html.Hr(),
     ], style={'position': 'relative', 'min-height': '100vh'}),
     
 ])
 
-@app.callback(
-        Output('tabs-content', 'children'),
-        [Input('tabs', 'value')])
-def render_content(tab):
-    if tab == 'tab-0':
-        print("Rendering tab 0 content...")
-        return tab0.create_layout()
-    elif tab == 'tab-1':
-        print("Rendering tab 1 content...")
-        return tab1.create_layout(app)
-    elif tab == 'tab-2':
-        print("Rendering tab 2 content...")
-        return tab2.create_layout()
     
 server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 

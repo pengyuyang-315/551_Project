@@ -145,7 +145,7 @@ def create_layout(app):
     [Input('column-dropdown', 'value')]
     )      
     def update_world_map(column_name):
-        print("column_name")
+        # print("column_name")
         if column_name is None:  # If no option is chosen, default to 'Overweight'
             column_name = 'Overweight'
         explain = growth_indicators_dict[column_name]
