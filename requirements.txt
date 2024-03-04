@@ -10,5 +10,4 @@ pycountry_convert
 dash-extensions
 gunicorn==21.2.0
 openpyxl==3.0.10
-json
 express-py
