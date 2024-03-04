@@ -151,13 +151,14 @@ def create_layout(app):
     ])
 
     # earth plot for different indicators
+
     @app.callback(
         [Output('world-map', 'figure'),
          Output('indicator_explain', 'children')],
         [Input('column-dropdown', 'value')]
     )
     def update_world_map(column_name):
-        print("column_name")
+        print(column_name)
         if column_name is None:  # If no option is chosen, default to 'Overweight'
             column_name = 'Overweight'
         explain = growth_indicators_dict[column_name]
