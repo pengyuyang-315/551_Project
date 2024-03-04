@@ -171,7 +171,6 @@ def create_layout(app):
         df_by_continent.drop("Income Classification", inplace=True, axis=1)
 
         df_by_continent = df_by_continent.reset_index()
-        print(df_by_continent)
         chart = alt.Chart(df_by_continent,
                           title=alt.TitleParams(
                               text=f'Average {column_name} by Continent Bar Chart',

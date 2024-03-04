@@ -248,6 +248,7 @@ def create_layout(app):
                 print("No such")
                 country = "China"
             print(country)
+            
         df0 = pd.read_csv("data/death_infant.csv")
         df0 = df0[df0["Country Name"] == country].iloc[:, -63:].T
         df0.columns = ["Death Number"]
