@@ -5,5 +5,10 @@ dash_html_components==2.0.0
 numpy==1.24.3
 pandas==2.1.4
 plotly==5.9.0
+dash-tools
+pycountry_convert
+dash-extensions
 gunicorn==21.2.0
 openpyxl==3.0.10
+json
+express-py

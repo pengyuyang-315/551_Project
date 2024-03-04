@@ -11,7 +11,7 @@ MPI_sub = pd.read_csv("data/MPI_subnational.csv")
 columns_1 = MPI_nat.drop("Country", axis=1).columns.tolist()
 countryNames = MPI_sub["Country"].unique().tolist()
 
-###MPI dict
+# MPI dict
 MPI_national_dict = {
     "MPI Urban": "The Multidimensional Poverty Index for urban areas, quantifying the severity of poverty by considering multiple deprivation factors at the household level within urban settings.",
     "Headcount Ratio Urban": "The proportion of the population living in multidimensional poverty in urban areas. It represents the percentage of people whose household deprivation score is above a certain threshold, indicating they are multidimensionally poor.",
@@ -23,6 +23,7 @@ MPI_national_dict = {
 
 ###
 # Initialize the Dash app
+
 
 def create_world_map_1(column_name):
     fig = go.Figure()
@@ -46,14 +47,16 @@ def create_world_map_1(column_name):
     )
     return fig
 ###
+
+
 def create_altair_bar_plot(selected_country, selected_region):
     # Filter the DataFrame for the selected country and sub-national region
-    filtered_df = MPI_sub[(MPI_sub['Country'] == selected_country) & 
+    filtered_df = MPI_sub[(MPI_sub['Country'] == selected_country) &
                           (MPI_sub['Sub-national region'] == selected_region)]
 
     # Prepare data in long format for Altair
     # We will use 'MPI Regional', 'Headcount Ratio Regional', and 'Intensity of deprivation Regional' columns for the bar plot
-    long_df = filtered_df.melt(value_vars=['MPI Regional', 'Headcount Ratio Regional', 'Intensity of deprivation Regional'], 
+    long_df = filtered_df.melt(value_vars=['MPI Regional', 'Headcount Ratio Regional', 'Intensity of deprivation Regional'],
                                var_name='Indicator', value_name='Value')
 
     # Create the Altair bar chart
@@ -68,13 +71,15 @@ def create_altair_bar_plot(selected_country, selected_region):
 
     return chart
 ###
+
+
 def create_country_bar_plot(selected_country):
     # Filter the DataFrame for the selected country
     filtered_df = MPI_nat[MPI_nat['Country'] == selected_country]
 
     # Prepare data in long format for Altair
     # We will use 'MPI Rural', 'Headcount Ratio Rural', and 'Intensity of Deprivation Rural' columns for the bar plot
-    long_df = filtered_df.melt(value_vars=['MPI Rural', 'Headcount Ratio Rural', 'Intensity of Deprivation Rural'], 
+    long_df = filtered_df.melt(value_vars=['MPI Rural', 'Headcount Ratio Rural', 'Intensity of Deprivation Rural'],
                                var_name='Indicator', value_name='Value')
 
     # Create the Altair bar chart
@@ -90,27 +95,31 @@ def create_country_bar_plot(selected_country):
     return chart
 ###
 
+
 def create_layout(app):
-# Define the app layout
+    # Define the app layout
     layout = html.Div([
-        html.H2("Poverty Data Visualization", style={'margin-top': '20px', 'margin-left': '20px'}),
+        html.H2("Poverty Data Visualization", style={
+                'margin-top': '20px', 'margin-left': '20px'}),
         dcc.Dropdown(
             id='columns-dropdown',
-            options=[{'label': col, 'value': col} for col in columns_1 if col != "ISO"],
+            options=[{'label': col, 'value': col}
+                     for col in columns_1 if col != "ISO"],
             value='MPI Urban',  # Default value
             placeholder="Select indicator",
             style={'width': '50%'}
         ),
         html.Div([
-                html.H5("Indicator explanation:",
-                        style={'margin-bottom': '5px'}),
-                html.Div(id='indicator_explain-1', style={
-                         'font-size': 'small', 'width': '50%'}),
-            ]),
+            html.H5("Indicator explanation:",
+                    style={'margin-bottom': '5px'}),
+            html.Div(id='indicator_explain-1', style={
+                'font-size': 'small', 'width': '50%'}),
+        ]),
         html.Div([  # This div wraps the world map and Altair chart horizontally
             dcc.Graph(
                 id='world-map-1',
-                style={'width': '50%', 'height': '480px'}  # Adjusted width to 50%
+                # Adjusted width to 50%
+                style={'width': '50%', 'height': '480px'}
             ),
             html.Iframe(
                 id='altair-chart-container',
@@ -118,10 +127,12 @@ def create_layout(app):
             )
         ], style={'display': 'flex', 'justify-content': 'space-around'}),
         html.Div([  # This div contains other components such as dropdowns and data tables
-            html.H4("Choose the countries and regions", style={'margin-top': '20px'}),
+            html.H4("Choose the countries and regions",
+                    style={'margin-top': '20px'}),
             dcc.Dropdown(
                 id='country-dropdown-1',
-                options=[{'label': country, 'value': country} for country in countryNames],
+                options=[{'label': country, 'value': country}
+                         for country in countryNames],
                 value="China",  # Default value
                 multi=False,
                 placeholder="Search and select countries...",
@@ -135,14 +146,17 @@ def create_layout(app):
             ),
             dash_table.DataTable(
                 id='city-data-table',
-                columns=[{"name": i, "id": i} for i in MPI_sub.columns],  # Initialize columns
+                columns=[{"name": i, "id": i}
+                         for i in MPI_sub.columns],  # Initialize columns
                 data=[],  # Initialize with no data
             ),
             dash_table.DataTable(
                 id='country-data-table',
-                columns=[{"name": i, "id": i} for i in MPI_nat.columns],  # Initialize columns with MPI_nat columns
+                # Initialize columns with MPI_nat columns
+                columns=[{"name": i, "id": i} for i in MPI_nat.columns],
                 data=[],  # Initialize with no data
-                style_table={'margin-top': '20px'}  # Add some margin for spacing
+                # Add some margin for spacing
+                style_table={'margin-top': '20px'}
             ),
             html.Div([
                 html.Iframe(
@@ -161,7 +175,7 @@ def create_layout(app):
     # Define callbacks to dynamically update content
     @app.callback(
         [Output('world-map-1', 'figure'),
-        Output('indicator_explain-1', 'children')],
+         Output('indicator_explain-1', 'children')],
         [Input('columns-dropdown', 'value')]
     )
     def update_world_map1(column_name):
@@ -169,7 +183,7 @@ def create_layout(app):
             column_name = 'MPI Rural'
         explain = MPI_national_dict[column_name]
 
-        return create_world_map_1(column_name),explain
+        return create_world_map_1(column_name), explain
 
     @app.callback(
         Output('city-dropdown', 'options'),
@@ -185,13 +199,15 @@ def create_layout(app):
     @app.callback(
         Output('city-data-table', 'data'),
         [Input('city-dropdown', 'value'),
-        Input('country-dropdown-1', 'value')]
+         Input('country-dropdown-1', 'value')]
     )
     def update_table(selected_city, selected_country):
         if selected_city and selected_country:
-            filtered_df = MPI_sub[(MPI_sub['Country'] == selected_country) & (MPI_sub['Sub-national region'] == selected_city)]
+            filtered_df = MPI_sub[(MPI_sub['Country'] == selected_country) & (
+                MPI_sub['Sub-national region'] == selected_city)]
             return filtered_df.to_dict('records')
         return []
+
     @app.callback(
         Output('country-data-table', 'data'),
         [Input('country-dropdown-1', 'value')]
@@ -200,11 +216,13 @@ def create_layout(app):
         if selected_country:
             # Filter for the selected country
             filtered_df = MPI_nat[MPI_nat['Country'] == selected_country]
-            return filtered_df.to_dict('records')  # Convert DataFrame to a list of dictionaries
+            # Convert DataFrame to a list of dictionaries
+            return filtered_df.to_dict('records')
         return []
 
     @app.callback(
-        Output('altair-plot-iframe', 'srcDoc'),  # Assuming an Iframe with this ID is in your layout
+        # Assuming an Iframe with this ID is in your layout
+        Output('altair-plot-iframe', 'srcDoc'),
         [Input('country-dropdown-1', 'value'), Input('city-dropdown', 'value')]
     )
     def update_altair_plot(selected_country, selected_region):
@@ -212,8 +230,10 @@ def create_layout(app):
             chart = create_altair_bar_plot(selected_country, selected_region)
             return chart.to_html()
         return "Please select a country and a city."
+
     @app.callback(
-        Output('country-bar-plot-iframe', 'srcDoc'),  # Assuming an Iframe with this ID is in your layout
+        # Assuming an Iframe with this ID is in your layout
+        Output('country-bar-plot-iframe', 'srcDoc'),
         [Input('country-dropdown-1', 'value')]
     )
     def update_country_bar_plot(selected_country):
@@ -223,26 +243,28 @@ def create_layout(app):
         return "Please select a country."
 
     @app.callback(
-        Output('altair-chart-container', 'srcDoc'),  # Assume an html.Iframe to display the chart
+        # Assume an html.Iframe to display the chart
+        Output('altair-chart-container', 'srcDoc'),
         [Input('world-map-1', 'hoverData'),
-        Input('country-dropdown-1', 'value')]
+         Input('country-dropdown-1', 'value')]
     )
     def update_chart(hoverData, dropdown_value):
         if hoverData is None or dropdown_value is None:
             return None  # Early exit if data is missing
-        
+
         # Extract country names
         hover_country = hoverData['points'][0]['location']
         selected_country = dropdown_value
-        
+
         # Filter data for the two countries
-        chart_data = MPI_nat[MPI_nat['Country'].isin([hover_country, selected_country])]
-        
+        chart_data = MPI_nat[MPI_nat['Country'].isin(
+            [hover_country, selected_country])]
 
     # Then fold the specified columns into 'Indicator' and 'value' for Altair chart
-        long_df = chart_data.melt(id_vars=["ISO", "Country"], 
-                    value_vars=["MPI Rural", "Headcount Ratio Rural", "Intensity of Deprivation Rural"],
-                    var_name="Indicator", value_name="Value")
+        long_df = chart_data.melt(id_vars=["ISO", "Country"],
+                                  value_vars=[
+                                      "MPI Rural", "Headcount Ratio Rural", "Intensity of Deprivation Rural"],
+                                  var_name="Indicator", value_name="Value")
         chart = alt.Chart(long_df).mark_bar().encode(
             x=alt.X('Country:N', title='Country'),
             y=alt.Y('Value:Q', title='Value'),
@@ -255,7 +277,6 @@ def create_layout(app):
             title='Comparison of Key Poverty Variables Between Countries(hovered country and drop-down country)'
         )
 
-        
         return chart.to_html()
 
     return layout
