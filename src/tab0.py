@@ -167,7 +167,7 @@ def create_layout(app):
     def update_continent_bar(column_name):
         df_avg = pd.read_csv("data/country-wise-average.csv")
         df_avg["Continent"] = df_avg["Country"].apply(country_to_continent)
-        df_by_continent = df_avg.groupby("Continent").agg('mean')
+        df_by_continent = df_avg.groupby("Continent").mean(numeric_only=True)
         df_by_continent.drop("Income Classification", inplace=True, axis=1)
 
         df_by_continent = df_by_continent.reset_index()
