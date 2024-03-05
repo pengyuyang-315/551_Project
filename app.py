@@ -21,7 +21,7 @@ app.layout = html.Div([
         html.Img(src='assets/logo2.jpeg', height='100vh', width='100vw', style={'display': 'inline-block', 'padding-bottom': 8}),
         dcc.Tabs(
             id='tabs',
-            value='tab1',  # Set the default tab ID here
+            value='tab0',  # Set the default tab ID here
             children=[
                 dcc.Tab(label='Overview', value='tab0', children=tab0.create_layout(app)),
                 dcc.Tab(label='Malnutrition', value='tab1', children=tab1.create_layout(app)),
