@@ -1,5 +1,28 @@
 ## Dashboard Implementation and Reflection
 
+## Tab 0: Overview 
+
+### Implemented Features:
+
+1. The dashboard visualizes the spatial distribution of malnutrition indicators across continents using an interactive Plotly choropleth map.
+2. It offers a comparative and general malnutrition analysis between continents.
+3. There are detailed tooltips available for data points on the maps and charts, providing additional context and information.
+4. A general introductory quote is present, setting the context for the global malnutrition situation.
+5. The dashboard lists noteworthy points from the dataset, highlighting key insights such as the highest rates of severe wasting and overweight children by continent.
+
+### Not Yet Implemented:
+
+1. Improve the css to the layout.
+2. Add poverty comparison and analysis between continents
+
+### Reflection:
+
+The Overview tab serves as a comprehensive introduction to the global situation of malnutrition, effectively combining quantitative data with qualitative insights. The use of Plotly for choropleth maps enables a clear spatial representation of malnutrition indicators, which, along with the comparative analysis between continents, provides a quick understanding of the geographic distribution of the problem.
+
+The introductory quote and the noteworthy points at the bottom offer context and a summary of the critical findings, respectively, making the data more accessible to stakeholders. The detailed tooltips are a great feature as they provide instant access to more in-depth information without cluttering the visual presentation.
+
+For future improvements, enhancing the CSS layout could make the dashboard more aesthetically pleasing and user-friendly. Additionally, incorporating interactive elements such as filtering options or more dynamic comparative analysis tools could further engage users and allow for more personalized data exploration. It would also be beneficial to ensure that the data presented in the tooltips is aligned with the latest research and statistics for accuracy and credibility.
+
 
 ## Tab 1: Malnutrition 
 ### Implemented Features:
