@@ -12,7 +12,7 @@ from src import tab2, tab1, tab0
 
 app = dash.Dash(__name__)
 server = app.server
-#test
+
 app.title = "Malnutrition and poverty cross the globe"
 print("Current working directory set to:", os.getcwd())
 
