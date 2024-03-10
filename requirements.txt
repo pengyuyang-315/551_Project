@@ -11,3 +11,4 @@ dash-extensions
 gunicorn==21.2.0
 openpyxl==3.0.10
 express-py
+dash-bootstrap-components==1.5.0

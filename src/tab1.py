@@ -7,6 +7,7 @@ import altair as alt
 import numpy as np
 import sys
 import os
+import dash_bootstrap_components as dbc
 from datetime import datetime
 
 # set root path as default
@@ -46,12 +47,14 @@ def create_world_map(column_name):
         z=df_avg[column_name],
         locationmode='country names',
         # Manually specify color range
-        colorscale=[[0, 'lightblue'], [1, 'darkblue']],
+        colorscale=[[0, 'rgb(255, 255, 204)'], [0.25, 'rgb(255, 237, 160)'], [0.5, 'rgb(254, 178, 76)'], [0.75, 'rgb(253, 141, 60)'], [1, 'rgb(227, 26, 28)']],
+        # colorscale=[[0, 'lightblue'], [1, 'darkblue']],
         colorbar=dict(title=column_name + ' Rate'),
         hoverinfo='location+z'
     ))
 
     fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
         title=dict(text='Average ' + column_name +
                    ' Rate(From 1997 to 2018)', x=0.5, y=0.9),
         geo=dict(
@@ -60,23 +63,20 @@ def create_world_map(column_name):
             showocean=True, oceancolor="LightBlue",
             showland=True, landcolor="White",
             showcountries=True, countrycolor="Gray"
-        ),
+        )
     )
 
     return fig
-
-# main structre layout for tab1
-
 
 def create_layout(app):
 
     layout = html.Div([
 
-        html.H2("Malnutrition Data Visualization", style={
-                'margin-top': '20px', 'margin-left': '20px'}),
 
-        # display earth plot
-        html.Label([
+        html.Div([
+            html.H4("Feature Choose:", style={
+                 'margin-left': '10px','font-family':' Georgia'}),
+            # display indicator
             # get indicator selected
             html.Label([
                 dcc.Dropdown(
@@ -84,60 +84,68 @@ def create_layout(app):
                     options=[{'label': i, 'value': i} for i in columns_1],
                     value='Overweight',  # Set 'Overweight' as the default option
                     placeholder="Select indicator",
-                    style={'width': '50%'}
+                    style={'width': '150%','margin-left': '5px','fontSize': '13px'}
                 ),
             ]),
             html.Div([
-                html.H5("Indicator explanation:",
-                        style={'margin-bottom': '5px'}),
+                html.H6("Explanation:",
+                        style={'margin-bottom': '5px','font-family':'Georgia'}),
                 html.Div(id='indicator_explain', style={
-                         'font-size': 'small', 'width': '50%'}),
-            ], style={'margin-bottom': '20px'}),  # Add margin between the H5 and the Div
-
-            dcc.Graph(id='world-map',
-                      style={'width': '100%', 'height': '480px'}),
+                        'font-size': '13px', 'width': '40%','font-style':'italic'}),
+            ], style={'margin-bottom': '20px','margin-left': '9px'}),  # Add margin between the H5 and the Div
+        
         ]),
-
-        # display two other plots for specific country
+        html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'}),
+        
+        # display earth plot and death plot
         html.Div([
+            dcc.Graph(
+                id='world-map',
+                style={'height':'100%','width': '60%'}
+            ),
 
             # death number bar plot
             html.Div([
                 html.Iframe(
                     id='death_number',
-                    style={'width': '100%', 'height': '400px'}
+                    style={'height':'85%','width': '100%', 'background-color': 'transparent'}
                 )
-            ], style={'width': '43%', 'height': '400px', 'display': 'inline-block', 'float': 'left'}),
+            ], style={'width': '40%'}),
+        ], style={'display': 'flex','height':'10%'}),
 
-            # indicator compare for more than 1 countries
-            html.Div([
-                html.Iframe(
-                    id='Compare',
-                    style={'width': '70%', 'height': '400px', 'float': 'right'}
-                ),
+        html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'}),
+        # display two other plots for specific country
+        dbc.Row([
+
+            dbc.Col([
                 html.Div([
-                    html.H4("Choose the countries and indicator"),
-
-                    html.Div(style={'margin-top': '20px'}),
+                    html.H4("Temporal Distribution Model", style={'font-family':'Georgia'}),
+                    html.P("Note: While WHO has not conducted annual data collection for every indicator, it has established corresponding estimation models for certain critical metrics. Consequently, it is able to present specific data for each year from 2000 to 2020.",style={"font-size":"13px","font-style":"italic"}),
+                    html.H5("Countries to Compare", style={'font-family':'Georgia'}),
                     dcc.Dropdown(
                         id='country-dropdown',
                         options=[{'label': country, 'value': country}
-                                 for country in countryNames],
-                        value=["China", "Benin"],
+                                    for country in countryNames],
+                        value=["China", "Benin","Haiti"],
                         multi=True,
                         placeholder="Search and select countries...",
+                        style={'width': '80%','margin-left': '1px','fontSize': '13px','margin-bottom': '20px'}
                     ),
-                    html.Div(style={'margin-top': '20px'}),
+                    # html.P(style={'width':'15px'}),
+                    html.Div([
+                        html.Img(src='assets/ip.jpeg', height='100%', width='45%', style={'display': 'inline-block', 'vertical-align': 'middle'}),
+                    ])
+                ], style={'width': '100%'}),
 
-                    dcc.RadioItems(
-                        id='estimate-radio',
-                        options=[{'label': i, 'value': i} for i in columns_2],
-                        inline=True,
-                        value='Overweight',
-                    )
-                ], style={'width': '28%', 'float': 'left'})
-            ], style={'width': '55%', 'height': '400px', 'display': 'inline-block', 'float': 'right'}),
-        ], style={'height': '420px'}),
+            ]),
+            dbc.Col([
+                html.Iframe(
+                    id='Compare',
+                    style={'width': '100%', 'height': '400px'}
+                ),
+            ], width=8),
+            
+        ], style={'height': '400px','margin-left': '9px','margin-bottom':'5px'}),
 
 
         html.Div([
@@ -146,9 +154,10 @@ def create_layout(app):
                 html.A(
                     "Yuyang Peng", href="https://github.com/pengyuyang-315/551_Project", target='_blank')
             ], style={'font-size': '9pt'})
-        ], style={'width': '100%', })
+        ], style={'width': '100%', 'margin-left': '4px'})
 
-    ])
+    ], style={'backgroundColor': '#FAF5F4'}
+    )
 
     # earth plot for different indicators
 
@@ -168,12 +177,23 @@ def create_layout(app):
 
     # display one indicator different countries
 
+    
     @app.callback(
-        Output('Compare', 'srcDoc'),
-        [Input('country-dropdown', 'value'),
-         Input('estimate-radio', 'value')]
-    )
-    def displayCompare(countries, indicator):
+    Output('Compare', 'srcDoc'),
+    Input('country-dropdown', 'value')
+)
+    def displayCompare(countries):
+        df_tol_1 = prepare_data("Stunting", countries)
+        df_tol_2 = prepare_data("Overweight", countries)
+
+        area_1 = create_chart(df_tol_1, "Stunting", countries)
+        area_2 = create_chart(df_tol_2, "Overweight", countries)
+
+        combined_chart = area_1 | area_2
+
+        return combined_chart.to_html()
+
+    def prepare_data(indicator, countries):
         sheetName = indicator + ' Proportion (Model)'
         df_tol = pd.DataFrame()
 
@@ -207,10 +227,12 @@ def create_layout(app):
         df_tol['Point Estimate'] /= 100
         df_tol['Upper Uncertainty Bound'] /= 100
         df_tol['Lower Uncertainty Bound'] /= 100
-        countries_string = ', '.join(countries)
 
+        return df_tol
+
+    def create_chart(df_tol, indicator, countries):
         # Construct the title
-        title = f"{indicator} Model Estimates in {countries_string}"
+        title = f"{indicator} Model Estimates in {', '.join(countries)}"
         area = alt.Chart(df_tol).mark_area(opacity=0.5).encode(
             x=alt.X('Year', title='Year'),
             y=alt.Y('Upper Uncertainty Bound', title='Proportion',
@@ -220,16 +242,19 @@ def create_layout(app):
             tooltip=['Year', 'Country', alt.Tooltip('Point Estimate', format='.2%'), alt.Tooltip(
                 'Upper Uncertainty Bound', format='.2%'), alt.Tooltip('Lower Uncertainty Bound', format='.2%')]
         ).properties(
-            title=title
+            title =title
         )
 
-        charts = area+alt.Chart(df_tol).mark_line().encode(
+        line = alt.Chart(df_tol).mark_line().encode(
             x=alt.X('Year', title='Year'),
             y="Point Estimate",
             color='Country'
         )
 
-        return charts.to_html()
+        
+
+        return area + line
+
 
     @app.callback(
         Output('death_number', 'srcDoc'),
@@ -292,8 +317,8 @@ def create_layout(app):
         sum = pd.concat([df0, df1, df2, df3, df4])
         sum['Year'] = pd.to_datetime(sum['Year'], format='%Y')
         sum_2000_2021 = sum.query("Year > 1999 and Year <2022")
-        title = 'Death Number By Age in ' + country + ' from 2000 to 2021'
-        subtitle = 'Source from the UN Inter-agency Group for Child Mortality Estimation: www.childmortality.org'
+        title = 'Death Number by Age in ' + country + ' from 2000 to 2021'
+        subtitle = 'Source from the UN Inter-agency Group for Child Mortality Estimation'
         chart = alt.Chart(sum_2000_2021,
                           title=alt.TitleParams(
                               text=title,
@@ -317,7 +342,14 @@ def create_layout(app):
                 # Custom tooltip for Range
                 alt.Tooltip("Range", title="Age Range")
             ]
+        ).properties(
+            width='container',
+            background='transparent'
+        ).configure_view(
+            strokeWidth=0,
+            fill='transparent'
         )
+        
 
         chart_html = chart.to_html()
 
