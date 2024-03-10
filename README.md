@@ -1,7 +1,39 @@
 
 # 551_Project
-## Introduction
-- This document outlines our team's agreement on work distribution, expected work hours, meeting schedules, responsibilities, working style, quality expectations, availability, and other governance aspects of our working relationships. This agreement is designed to ensure fairness, equity, and efficiency within our team as we undertake our capstone project.
+## Overview
+
+This dashboard provides visualizations of malnutrition and poverty indicators across different regions and nations. It consists of three tabs: Overview, Malnutrition, and Poverty.
+
+## Tabs
+
+1. **Overview**: General information about the dashboard and its functionality.
+2. **Malnutrition**: Visualizes spatial distribution of seven critical malnutrition indicators using Plotly/choropleth maps and temporal distribution of fatality count.
+3. **Poverty**: Visualizes spatial distribution of poverty indicators for selected nations and their temporal distribution.
+
+## Deployment
+
+The dashboard is deployed on Heroku and can be accessed [here](https://malnutrition-test-55a7c15e2661.herokuapp.com).
+
+## Technologies Used
+
+- Plotly: For creating choropleth maps to visualize spatial distributions.
+- Altair: For visualizing temporal distributions of fatality count and poverty indicators.
+- Heroku: Deployment platform for online access.
+## Usage
+
+To run the dashboard locally:
+
+1. Clone this repository.
+2. Install the required dependencies:
+    ```
+    pip install -r requirements.txt
+    ```
+3. Run the application:
+    ```
+    python app.py
+    ```
+4. Access the dashboard in your web browser at `http://localhost:8050`.
+
 ## Sketch
 
 This interactive dashboard presents a comprehensive overview of global malnutrition statistics, designed to offer insights into the prevalence and distribution of malnutrition across different regions and demographics. Upon accessing the dashboard, users are greeted with a landing page that vividly displays the extent of malnutrition through various data visualization methods such as bar charts, pie charts, and density plots. These visualizations are color-coded to distinguish between different types of malnutrition, such as undernutrition, obesity, and micronutrient deficiencies.
