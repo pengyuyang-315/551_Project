@@ -278,7 +278,7 @@ def create_layout(app):
         chart = alt.Chart(long_df).mark_bar().encode(
             x=alt.X('Country:N', title='Country'),
             y=alt.Y('Value:Q', title='Value'),
-            color=alt.Color('Country:N', legend=alt.Legend(title="Country")),
+            color=alt.Color('Country:N', legend=None),
             column=alt.Column('Indicator:N', title='Indicator'),
             tooltip=['Country', 'Indicator', 'Value']
         ).properties(
@@ -321,7 +321,8 @@ def create_layout(app):
         ).properties(
             width=150,
             height=300,
-            title='Comparison of MPI Rural Between Countries(hovered country and drop-down country)'
+            title='MPI Rural'
+            
         )
 
         return chart.to_html()
