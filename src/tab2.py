@@ -108,10 +108,11 @@ def create_layout(app):
             value="China",  # Default value
             multi=False,
             placeholder="Search and select countries...",
-            style={'width': '150%','margin-left': '5px','fontSize': '13px'}
+            style={'width': '50%','margin-left': '5px','fontSize': '13px'}
         ),
         html.H5("Choose a poverty indicator you are interested in, the world map will show you the distribution of that indicator all over the world!",  # Moved up
                 style={'margin-top': '20px'}),
+        
         dcc.Dropdown(
             id='columns-dropdown',
             options=[{'label': col, 'value': col}
@@ -119,8 +120,9 @@ def create_layout(app):
             value='MPI Urban',  # Default value
             placeholder="Select indicator",
             
-            style={'width': '150%','margin-left': '5px','fontSize': '13px'}
+            style={'width': '50%','margin-left': '5px','fontSize': '13px'}
         ),
+        
         html.Div([
             html.H6("Indicator explanation:",
                     style={'margin-bottom': '5px','font-family':'Georgia'}),
@@ -156,7 +158,7 @@ def create_layout(app):
                 multi=False,
                 value="Central",  # Default value
                 placeholder="Select a region...",
-                style={'width': '150%','margin-left': '5px','fontSize': '13px'}
+                style={'width': '50%','margin-left': '5px','fontSize': '13px'}
             ),
             html.H5("Regional data with in selected country",  # Moved up
                 style={'margin-top': '20px'}),
