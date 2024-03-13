@@ -23,7 +23,6 @@ MPI_national_dict = {
     "Intensity of Deprivation Rural": "The average proportion of deprivation experienced by people in multidimensional poverty in rural areas. This shows the average number of indicators in which poor individuals are deprived relative to the total indicators used in the MPI."
 }
 
-
 ###
 # Initialize the Dash app
 
@@ -458,4 +457,5 @@ html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'})
         
 
     return layout
+
 
