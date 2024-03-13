@@ -72,7 +72,8 @@ def create_altair_bar_plot(selected_country, selected_region):
     ).properties(
         title=f'Poverty Metrics in {selected_region}, {selected_country}',
         width=374,  
-        height=30
+        height=30,
+        background='transparent'
     
     )
 
@@ -96,6 +97,7 @@ def create_country_bar_plot(selected_country):
         tooltip=['Indicator:N', 'Value:Q']
     ).properties(
         title=f'Rural Poverty Metrics in {selected_country}',
+        background='transparent',
         width=400,  
         height=30
     )
@@ -335,6 +337,7 @@ def create_layout(app):
         ).properties(
             width=150,
             height=300,
+            background='transparent',
             title='Comparison of Key Poverty Variables Between Countries(hovered country and drop-down country)'
         )
 
@@ -372,6 +375,7 @@ def create_layout(app):
         ).properties(
             width=150,
             height=300,
+            background='transparent',
             title='MPI Rural'
             
         )
@@ -442,7 +446,8 @@ def create_layout(app):
         ).properties(
             title="MPI Distribution",
             width=200,  # Adjusted width for visibility
-            height=200  # Adjusted height for visibility
+            height=200,  # Adjusted height for visibility
+            background='transparent'
         )
 
         return chart.to_html()
