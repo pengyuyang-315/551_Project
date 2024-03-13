@@ -92,4 +92,4 @@ app.layout = html.Div([
 server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', debug=True, port=8964)
+    app.run_server(host='0.0.0.0', port=8964)
