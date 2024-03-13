@@ -151,11 +151,11 @@ def create_layout(app):
             ),
             html.Iframe(
                 id='altair-chart-container',
-                style={'width': '50%', 'height': '480px', 'border': 'none'}
+                style={'width': '50%', 'height': '480px', 'border': 'none','margin-top': '50px'}
             ),
             html.Iframe(
                 id='altair-chart-container-1',
-                style={'width': '50%', 'height': '480px', 'border': 'none'}
+                style={'width': '50%', 'height': '480px', 'border': 'none','margin-top': '50px'}
             )
         ], style={'display': 'flex', 'justify-content': 'space-around'}),
         html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'}),
@@ -207,21 +207,22 @@ def create_layout(app):
     dbc.Col(html.Div([
         html.Iframe(
             id='altair-plot-iframe',
-            style={'width': '100%', 'height': '100px', 'border': 'none'}
+            style={'width': '100%', 'height': '30%', 'border': 'none'}
         ),
         html.Iframe(
             id='country-bar-plot-iframe',
-            style={'width': '100%', 'height': '100px', 'border': 'none'}
+            style={'width': '100%', 'height': '30%', 'border': 'none'}
         )
     ]), md=8),  # This column will take 8 parts of the grid system
     
     dbc.Col(html.Div([
         html.Iframe(
             id='DonutChart',
-            style={'width': '100%', 'height': '500px', 'border': 'none'}
+            style={'width': '100%', 'height': '400px', 'border': 'none'}
         )
     ]), md=4)  # This column will take 4 parts of the grid system, thus being on the right side
-])
+]),
+html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'})
             
             
             
@@ -446,7 +447,7 @@ def create_layout(app):
         ).properties(
             title="MPI Distribution",
             width=200,  # Adjusted width for visibility
-            height=200,  # Adjusted height for visibility
+            height=300,  # Adjusted height for visibility
             background='transparent'
         )
 
