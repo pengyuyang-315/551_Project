@@ -4,21 +4,6 @@
 
 This dashboard provides visualizations of malnutrition and poverty indicators across different regions and nations. It consists of three tabs: Overview, Malnutrition, and Poverty.
 
-## Tabs
-
-1. **Overview**: General information about the dashboard and its functionality.
-2. **Malnutrition**: Visualizes spatial distribution of seven critical malnutrition indicators using Plotly/choropleth maps and temporal distribution of fatality count.
-3. **Poverty**: Visualizes spatial distribution of poverty indicators for selected nations and their temporal distribution.
-
-## Deployment
-
-The dashboard is deployed on Heroku and can be accessed [here](https://malnutrition-test-55a7c15e2661.herokuapp.com).
-
-## Technologies Used
-
-- Plotly: For creating choropleth maps to visualize spatial distributions.
-- Altair: For visualizing temporal distributions of fatality count and poverty indicators.
-- Heroku: Deployment platform for online access.
 ## Usage
 
 To run the dashboard locally:
@@ -32,7 +17,23 @@ To run the dashboard locally:
     ```
     python app.py
     ```
-4. Access the dashboard in your web browser at `http://localhost:8050`.
+4. Access the dashboard in your web browser at `http://localhost:8964`.
+
+## Deployment
+
+The dashboard is deployed on Heroku and can be accessed [here](https://malnutrition-test-55a7c15e2661.herokuapp.com).
+
+## Tab Details
+
+1. **Overview**: General information about the dashboard and its functionality.
+2. **Malnutrition**: Visualizes spatial distribution of seven critical malnutrition indicators using Plotly/choropleth maps and temporal distribution of fatality count.
+3. **Poverty**: Visualizes spatial distribution of poverty indicators for selected nations and their temporal distribution.
+
+## Technologies Used
+
+- Plotly: For creating choropleth maps to visualize spatial distributions.
+- Altair: For visualizing temporal distributions of fatality count and poverty indicators.
+- Heroku: Deployment platform for online access.
 
 ## Sketch
 
