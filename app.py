@@ -26,7 +26,7 @@ app.layout = html.Div([
     html.Div([
         dcc.Tabs(
             id='tabs',
-            value='tab1',  # Set the default tab ID here
+            value='tab0',  # Set the default tab ID here
             children=[
                 dcc.Tab(
                     label='General',
