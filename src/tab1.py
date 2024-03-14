@@ -47,7 +47,8 @@ def create_world_map(column_name):
         z=df_avg[column_name],
         locationmode='country names',
         # Manually specify color range
-        colorscale=[[0, 'rgb(255, 255, 204)'], [0.25, 'rgb(255, 237, 160)'], [0.5, 'rgb(254, 178, 76)'], [0.75, 'rgb(253, 141, 60)'], [1, 'rgb(227, 26, 28)']],
+        colorscale=[[0, 'rgb(255, 255, 204)'], [0.25, 'rgb(255, 237, 160)'], [
+            0.5, 'rgb(254, 178, 76)'], [0.75, 'rgb(253, 141, 60)'], [1, 'rgb(227, 26, 28)']],
         # colorscale=[[0, 'lightblue'], [1, 'darkblue']],
         colorbar=dict(title=column_name + ' Rate'),
         hoverinfo='location+z'
@@ -68,6 +69,7 @@ def create_world_map(column_name):
 
     return fig
 
+
 def create_layout(app):
 
     layout = html.Div([
@@ -75,7 +77,7 @@ def create_layout(app):
 
         html.Div([
             html.H4("Feature Choose:", style={
-                 'margin-left': '10px','font-family':' Georgia'}),
+                 'margin-left': '10px', 'font-family': ' Georgia'}),
             # display indicator
             # get indicator selected
             html.Label([
@@ -84,56 +86,65 @@ def create_layout(app):
                     options=[{'label': i, 'value': i} for i in columns_1],
                     value='Overweight',  # Set 'Overweight' as the default option
                     placeholder="Select indicator",
-                    style={'width': '150%','margin-left': '5px','fontSize': '13px'}
+                    style={'width': '150%',
+                           'margin-left': '5px', 'fontSize': '13px'}
                 ),
             ]),
             html.Div([
                 html.H6("Explanation:",
-                        style={'margin-bottom': '5px','font-family':'Georgia'}),
+                        style={'margin-bottom': '5px', 'font-family': 'Georgia'}),
                 html.Div(id='indicator_explain', style={
-                        'font-size': '13px', 'width': '40%','font-style':'italic'}),
-            ], style={'margin-bottom': '20px','margin-left': '9px'}),  # Add margin between the H5 and the Div
-        
+                    'font-size': '13px', 'width': '40%', 'font-style': 'italic'}),
+            ], style={'margin-bottom': '20px', 'margin-left': '9px'}),  # Add margin between the H5 and the Div
+
         ]),
-        html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'}),
-        
+        html.Div(style={'border-bottom': '2px solid #ccc',
+                 'margin-bottom': '5px'}),
+
         # display earth plot and death plot
         html.Div([
             dcc.Graph(
                 id='world-map',
-                style={'height':'100%','width': '60%'}
+                style={'height': '100%', 'width': '60%'}
             ),
 
             # death number bar plot
             html.Div([
                 html.Iframe(
                     id='death_number',
-                    style={'height':'85%','width': '100%', 'background-color': 'transparent'}
+                    style={'height': '85%', 'width': '100%',
+                           'background-color': 'transparent'}
                 )
             ], style={'width': '40%'}),
-        ], style={'display': 'flex','height':'10%'}),
+        ], style={'display': 'flex', 'height': '10%'}),
 
-        html.Div(style={'border-bottom': '2px solid #ccc','margin-bottom':'5px'}),
+        html.Div(style={'border-bottom': '2px solid #ccc',
+                 'margin-bottom': '5px'}),
         # display two other plots for specific country
         dbc.Row([
 
             dbc.Col([
                 html.Div([
-                    html.H4("Temporal Distribution Model", style={'font-family':'Georgia'}),
-                    html.P("Note: While WHO has not conducted annual data collection for every indicator, it has established corresponding estimation models for certain critical metrics. Consequently, it is able to present specific data for each year from 2000 to 2020.",style={"font-size":"13px","font-style":"italic"}),
-                    html.H5("Countries to Compare", style={'font-family':'Georgia'}),
+                    html.H4("Temporal Distribution Model",
+                            style={'font-family': 'Georgia'}),
+                    html.P("Note: While WHO has not conducted annual data collection for every indicator, it has established corresponding estimation models for certain critical metrics. Consequently, it is able to present specific data for each year from 2000 to 2020.", style={
+                           "font-size": "13px", "font-style": "italic"}),
+                    html.H5("Countries to Compare", style={
+                            'font-family': 'Georgia'}),
                     dcc.Dropdown(
                         id='country-dropdown',
                         options=[{'label': country, 'value': country}
-                                    for country in countryNames],
-                        value=["China", "Benin","Haiti"],
+                                 for country in countryNames],
+                        value=["China", "Benin", "Haiti"],
                         multi=True,
                         placeholder="Search and select countries...",
-                        style={'width': '80%','margin-left': '1px','fontSize': '13px','margin-bottom': '20px'}
+                        style={'width': '80%', 'margin-left': '1px',
+                               'fontSize': '13px', 'margin-bottom': '20px'}
                     ),
                     # html.P(style={'width':'15px'}),
                     html.Div([
-                        html.Img(src='assets/ip.jpeg', height='100%', width='45%', style={'display': 'inline-block', 'vertical-align': 'middle'}),
+                        html.Img(src='assets/ip.jpeg', height='100%', width='45%',
+                                 style={'display': 'inline-block', 'vertical-align': 'middle'}),
                     ])
                 ], style={'width': '100%'}),
 
@@ -144,8 +155,8 @@ def create_layout(app):
                     style={'width': '100%', 'height': '400px'}
                 ),
             ], width=8),
-            
-        ], style={'height': '400px','margin-left': '9px','margin-bottom':'5px'}),
+
+        ], style={'height': '400px', 'margin-left': '9px', 'margin-bottom': '5px'}),
 
 
         html.Div([
@@ -177,11 +188,10 @@ def create_layout(app):
 
     # display one indicator different countries
 
-    
     @app.callback(
-    Output('Compare', 'srcDoc'),
-    Input('country-dropdown', 'value')
-)
+        Output('Compare', 'srcDoc'),
+        Input('country-dropdown', 'value')
+    )
     def displayCompare(countries):
         df_tol_1 = prepare_data("Stunting", countries)
         df_tol_2 = prepare_data("Overweight", countries)
@@ -242,7 +252,7 @@ def create_layout(app):
             tooltip=['Year', 'Country', alt.Tooltip('Point Estimate', format='.2%'), alt.Tooltip(
                 'Upper Uncertainty Bound', format='.2%'), alt.Tooltip('Lower Uncertainty Bound', format='.2%')]
         ).properties(
-            title =title
+            title=title
         )
 
         line = alt.Chart(df_tol).mark_line().encode(
@@ -251,10 +261,7 @@ def create_layout(app):
             color='Country'
         )
 
-        
-
         return area + line
-
 
     @app.callback(
         Output('death_number', 'srcDoc'),
@@ -273,7 +280,7 @@ def create_layout(app):
                 print("No such")
                 country = "China"
             print(country)
-            
+
         df0 = pd.read_csv("data/death_infant.csv")
         df0 = df0[df0["Country Name"] == country].iloc[:, -63:].T
         df0.columns = ["Death Number"]
@@ -349,7 +356,6 @@ def create_layout(app):
             strokeWidth=0,
             fill='transparent'
         )
-        
 
         chart_html = chart.to_html()
 
