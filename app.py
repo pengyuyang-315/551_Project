@@ -9,7 +9,7 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src import tab2, tab1, tab0
+from src import tab3,tab2, tab1, tab0
 
 app = dash.Dash(__name__,
                 external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -78,6 +78,23 @@ app.layout = html.Div([
                         'background-color': '#FAF5F4',
                         'border-width': '0'
                     }
+                ),
+                dcc.Tab(
+                    label='And...',
+                    value='tab3',
+                    children=tab3.create_layout(app),
+                    style={
+                        'font-family': 'Georgia',
+                        'font-size': '120%',
+                        'background-color': 'lightgrey',
+                        'border-width': '0'
+                    },
+                    selected_style={
+                        'font-family': 'Georgia',
+                        'font-size': '120%',
+                        'background-color': '#FAF5F4',
+                        'border-width': '0'
+                    }
                 )
             ]
         )
@@ -92,4 +109,4 @@ app.layout = html.Div([
 server.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key')
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', port=8964)
+    app.run_server(host='0.0.0.0', port=8964, debug=True)
